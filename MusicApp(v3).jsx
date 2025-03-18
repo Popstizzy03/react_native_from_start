@@ -218,3 +218,15 @@ const SpotifyClone = () => {
       }
     }
   };
+
+  // Player expansion animation
+  const togglePlayerExpansion = () => {
+    const toValue = isPlayerExpanded ? 0 : 1;
+    
+    Animated.spring(playerAnimation, {
+      toValue: 0, // Reset animation value
+      useNativeDriver: false,
+    }).start(() => {
+      setIsPlayerExpanded(!isPlayerExpanded);
+    });
+  };
