@@ -603,3 +603,291 @@ const SpotifyClone = () => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.background,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingTop: 20,
+    paddingBottom: 16,
+  },
+  headerTitle: {
+    color: COLORS.textPrimary,
+    fontSize: 28,
+    fontWeight: 'bold',
+  },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  iconButton: {
+    marginHorizontal: 12,
+  },
+  profileImage: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    marginLeft: 8,
+  },
+  categoriesList: {
+    paddingHorizontal: 16,
+    gap: 8,
+    marginBottom: 16,
+  },
+  categoryButton: {
+    backgroundColor: COLORS.surface,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+    marginRight: 8,
+  },
+  categoryText: {
+    color: COLORS.textPrimary,
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  sectionTitle: {
+    color: COLORS.textPrimary,
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 16,
+    paddingHorizontal: 16,
+  },
+  trackListContainer: {
+    paddingBottom: 100, // Space for Now Playing bar - adjusted dynamically
+  },
+  trackList: {
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+  },
+  trackItem: {
+    width: TRACK_CARD_WIDTH,
+    marginBottom: 24,
+  },
+  trackImage: {
+    width: '100%',
+    aspectRatio: 1,
+    borderRadius: 8,
+    marginBottom: 8,
+  },
+  trackTitle: {
+    color: COLORS.textPrimary,
+    fontSize: 14,
+    fontWeight: '600',
+    marginBottom: 2,
+  },
+  trackArtist: {
+    color: COLORS.textSecondary,
+    fontSize: 12,
+  },
+  
+  // Player Container (both mini and full)
+  playerContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: COLORS.surface,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 8,
+    overflow: 'hidden',
+  },
+  
+  // Drag Handle
+  dragHandleContainer: {
+    width: '100%',
+    alignItems: 'center',
+    paddingTop: 10,
+    height: 20,
+    zIndex: 10,
+  },
+  dragHandle: {
+    width: 40,
+    height: 4,
+    backgroundColor: COLORS.inactive,
+    borderRadius: 2,
+  },
+  
+  // Mini Player
+  miniPlayer: {
+    position: 'absolute',
+    top: 20,
+    left: 0,
+    right: 0,
+    height: MINI_PLAYER_HEIGHT - 20,
+  },
+  miniPlayerContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    height: '100%',
+  },
+  nowPlayingImageMini: {
+    width: 48,
+    height: 48,
+    borderRadius: 6,
+    marginRight: 12,
+  },
+  miniPlayerInfo: {
+    flex: 1,
+  },
+  miniPlayerControls: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  miniPlayButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: COLORS.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 8,
+  },
+  miniControlButton: {
+    width: 36,
+    height: 36,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  miniProgressBarContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 2,
+  },
+  miniProgressBar: {
+    height: '100%',
+    backgroundColor: COLORS.inactive,
+  },
+  miniProgressFill: {
+    height: '100%',
+    backgroundColor: COLORS.primary,
+  },
+  
+  // Full Player
+  fullPlayer: {
+    position: 'absolute',
+    top: 20, // Below drag handle
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  fullPlayerScroll: {
+    flex: 1,
+  },
+  fullPlayerScrollContent: {
+    paddingHorizontal: 24,
+    paddingBottom: 24,
+  },
+  fullPlayerArtwork: {
+    width: '100%',
+    aspectRatio: 1,
+    borderRadius: 12,
+    marginTop: 24,
+    marginBottom: 24,
+  },
+  fullPlayerTrackInfo: {
+    marginBottom: 24,
+  },
+  fullPlayerTitle: {
+    color: COLORS.textPrimary,
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 4,
+  },
+  fullPlayerArtist: {
+    color: COLORS.textSecondary,
+    fontSize: 18,
+  },
+  fullPlayerProgress: {
+    marginBottom: 24,
+  },
+  progressBar: {
+    width: '100%',
+    height: 4,
+    marginBottom: 8,
+  },
+  progressBarBackground: {
+    width: '100%',
+    height: 4,
+    backgroundColor: COLORS.inactive,
+    borderRadius: 2,
+    position: 'absolute',
+  },
+  progressFill: {
+    height: 4,
+    backgroundColor: COLORS.primary,
+    borderRadius: 2,
+    position: 'absolute',
+  },
+  progressThumb: {
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    backgroundColor: COLORS.primary,
+    position: 'absolute',
+    top: -6,
+  },
+  timeLabels: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  timeText: {
+    color: COLORS.textSecondary,
+    fontSize: 12,
+  },
+  fullPlayerControls: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  secondaryControlButton: {
+    padding: 12,
+  },
+  mainControlButton: {
+    padding: 12,
+  },
+  playButtonLarge: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: COLORS.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  secondaryControls: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 32,
+  },
+  iconButtonTransparent: {
+    padding: 12,
+  },
+  
+  // Lyrics Section
+  lyricsSection: {
+    marginBottom: 32,
+    backgroundColor: COLORS.cardBackground,
+    borderRadius: 8,
+    padding: 16,
+  },
+  lyricsSectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
