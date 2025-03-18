@@ -126,3 +126,95 @@ const SpotifyClone = () => {
       audio: 'https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Tours/Enthusiast/Tours_-_01_-_Enthusiast.mp3',
     },
   ];
+
+  // Player Pan Responder
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderGrant: () => {
+        playerAnimation.extractOffset();
+      },
+      onPanResponderMove: (event, gestureState) => {
+        // Only allow dragging down when expanded, or up when minimized
+        if ((isPlayerExpanded && gestureState.dy > 0) || (!isPlayerExpanded && gestureState.dy < 0)) {
+          playerAnimation.setValue(gestureState.dy);
+        }
+      },
+      onPanResponderRelease: (event, gestureState) => {
+        playerAnimation.flattenOffset();
+        // If dragged more than 100px, toggle state
+        if (Math.abs(gestureState.dy) > 100) {
+          togglePlayerExpansion();
+        } else {
+          // Otherwise, snap back to current state
+          Animated.spring(playerAnimation, {
+            toValue: 0,
+            useNativeDriver: false,
+          }).start();
+        }
+      },
+    })
+  ).current;
+
+  // Audio setup
+  useEffect(() => {
+    setupAudio();
+    return () => {
+      if (soundRef.current) {
+        soundRef.current.unloadAsync();
+      }
+    };
+  }, []);
+
+  // Update slider based on playback position
+  useEffect(() => {
+    if (!isSeeking && playbackDuration > 0) {
+      setSliderValue(playbackPosition / playbackDuration);
+    }
+  }, [playbackPosition, playbackDuration, isSeeking]);
+
+  const setupAudio = async () => {
+    try {
+      await Audio.setAudioModeAsync({
+        playsInSilentModeIOS: true,
+        staysActiveInBackground: true,
+        shouldDuckAndroid: true,
+      });
+    } catch (error) {
+      console.error('Failed to set audio mode', error);
+    }
+  };
+
+  const loadAudio = async (index) => {
+    try {
+      if (soundRef.current) {
+        await soundRef.current.unloadAsync();
+      }
+
+      console.log(`Loading audio: ${playlist[index].audio}`);
+      
+      const { sound } = await Audio.Sound.createAsync(
+        { uri: playlist[index].audio },
+        { shouldPlay: isPlaying },
+        onPlaybackStatusUpdate
+      );
+      
+      soundRef.current = sound;
+    } catch (error) {
+      console.error('Failed to load audio', error);
+      // Provide user feedback that audio failed to load
+      alert('Could not load audio track. Please try another track.');
+    }
+  };
+
+  const onPlaybackStatusUpdate = (status) => {
+    if (status.isLoaded) {
+      setPlaybackPosition(status.positionMillis);
+      if (status.durationMillis) {
+        setPlaybackDuration(status.durationMillis);
+      }
+      if (status.didJustFinish) {
+        handleNextTrack();
+      }
+    }
+  };
