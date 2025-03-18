@@ -891,3 +891,102 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 16,
   },
+
+
+    lyricsSectionTitle: {
+    color: COLORS.textPrimary,
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  seeAllText: {
+    color: COLORS.primary,
+    fontSize: 14,
+  },
+  lyricPreview: {
+    
+  },
+  lyricLine: {
+    color: COLORS.textSecondary,
+    fontSize: 16,
+    lineHeight: 24,
+  },
+  
+  // Up Next Section
+  upNextSection: {
+    marginBottom: 24,
+  },
+  upNextHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  upNextTitle: {
+    color: COLORS.textPrimary,
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  upNextTrack: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+    backgroundColor: COLORS.cardBackground,
+    padding: 8,
+    borderRadius: 8,
+  },
+  upNextTrackImage: {
+    width: 48,
+    height: 48,
+    borderRadius: 4,
+    marginRight: 12,
+  },
+  upNextTrackInfo: {
+    flex: 1,
+  },
+  upNextTrackTitle: {
+    color: COLORS.textPrimary,
+    fontSize: 14,
+    fontWeight: '600',
+    marginBottom: 2,
+  },
+  upNextTrackArtist: {
+    color: COLORS.textSecondary,
+    fontSize: 12,
+  },
+  upNextTrackAction: {
+    padding: 8,
+  },
+  
+  // Legacy styles kept for compatibility
+  nowPlayingTitle: {
+    color: COLORS.textPrimary,
+    fontWeight: '600',
+    fontSize: 14,
+  },
+  nowPlayingArtist: {
+    color: COLORS.textSecondary,
+    fontSize: 12,
+  },
+  playbackControls: {
+    flex: 1,
+  },
+  controlsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  controlButton: {
+    padding: 10,
+  },
+  playButton: {
+    backgroundColor: COLORS.primary,
+    borderRadius: 24,
+    width: 48,
+    height: 48,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 24,
+  },
+});
+
+export default SpotifyClone;
