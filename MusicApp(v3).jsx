@@ -432,3 +432,174 @@ const SpotifyClone = () => {
               </View>
             </View>
           </TouchableWithoutFeedback>
+
+                    
+          {/* Mini Progress Bar */}
+          <View style={styles.miniProgressBarContainer}>
+            <View style={styles.miniProgressBar}>
+              <View
+                style={[
+                  styles.miniProgressFill,
+                  {
+                    width: `${(playbackPosition / playbackDuration) * 100 || 0}%`,
+                  },
+                ]}
+              />
+            </View>
+          </View>
+        </Animated.View>
+        
+        {/* Full Player */}
+        <Animated.View style={[styles.fullPlayer, { opacity: fullPlayerOpacity }]}>
+          <ScrollView 
+            ref={scrollViewRef}
+            style={styles.fullPlayerScroll}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.fullPlayerScrollContent}
+          >
+            {/* Album Artwork */}
+            <Image
+              source={{ uri: playlist[currentTrackIndex].image }}
+              style={styles.fullPlayerArtwork}
+            />
+            
+            {/* Track Info */}
+            <View style={styles.fullPlayerTrackInfo}>
+              <Text style={styles.fullPlayerTitle}>{playlist[currentTrackIndex].title}</Text>
+              <Text style={styles.fullPlayerArtist}>{playlist[currentTrackIndex].artist}</Text>
+            </View>
+            
+            {/* Progress Bar */}
+            <View style={styles.fullPlayerProgress}>
+              <View style={styles.progressBar}>
+                <TouchableWithoutFeedback
+                  onPress={(event) => {
+                    const newPosition = event.nativeEvent.locationX / styles.progressBar.width;
+                    handleSliderComplete(Math.min(Math.max(newPosition, 0), 1));
+                  }}
+                >
+                  <View style={{ width: '100%', height: 20, justifyContent: 'center' }}>
+                    <View style={styles.progressBarBackground} />
+                    <View
+                      style={[
+                        styles.progressFill,
+                        {
+                          width: `${sliderValue * 100}%`,
+                        },
+                      ]}
+                    />
+                    <View 
+                      style={[
+                        styles.progressThumb,
+                        {
+                          left: `${sliderValue * 100}%`,
+                          transform: [{ translateX: -8 }]
+                        }
+                      ]} 
+                    />
+                  </View>
+                </TouchableWithoutFeedback>
+              </View>
+              
+              <View style={styles.timeLabels}>
+                <Text style={styles.timeText}>{formatTime(playbackPosition)}</Text>
+                <Text style={styles.timeText}>{formatTime(playbackDuration)}</Text>
+              </View>
+            </View>
+            
+            {/* Main Controls */}
+            <View style={styles.fullPlayerControls}>
+              <TouchableOpacity style={styles.secondaryControlButton}>
+                <Icon name="random" size={20} color={COLORS.textSecondary} />
+              </TouchableOpacity>
+              
+              <TouchableOpacity onPress={handlePrevTrack} style={styles.mainControlButton}>
+                <Icon name="step-backward" size={26} color={COLORS.textPrimary} />
+              </TouchableOpacity>
+              
+              <TouchableOpacity onPress={handlePlayPause} style={styles.playButtonLarge}>
+                <Icon
+                  name={isPlaying ? 'pause' : 'play'}
+                  size={32}
+                  color={COLORS.background}
+                />
+              </TouchableOpacity>
+              
+              <TouchableOpacity onPress={handleNextTrack} style={styles.mainControlButton}>
+                <Icon name="step-forward" size={26} color={COLORS.textPrimary} />
+              </TouchableOpacity>
+              
+              <TouchableOpacity style={styles.secondaryControlButton}>
+                <Icon name="repeat" size={20} color={COLORS.textSecondary} />
+              </TouchableOpacity>
+            </View>
+            
+            {/* Secondary Controls */}
+            <View style={styles.secondaryControls}>
+              <TouchableOpacity style={styles.iconButtonTransparent}>
+                <MaterialIcon name="devices" size={22} color={COLORS.textSecondary} />
+              </TouchableOpacity>
+              
+              <TouchableOpacity style={styles.iconButtonTransparent}>
+                <MaterialIcon name="share" size={22} color={COLORS.textSecondary} />
+              </TouchableOpacity>
+              
+              <TouchableOpacity style={styles.iconButtonTransparent}>
+                <MaterialIcon name="playlist-play" size={22} color={COLORS.textSecondary} />
+              </TouchableOpacity>
+              
+              <TouchableOpacity style={styles.iconButtonTransparent}>
+                <MaterialIcon name="favorite-border" size={22} color={COLORS.textSecondary} />
+              </TouchableOpacity>
+            </View>
+            
+            {/* Lyrics Section - Just a placeholder */}
+            <View style={styles.lyricsSection}>
+              <View style={styles.lyricsSectionHeader}>
+                <Text style={styles.lyricsSectionTitle}>Lyrics</Text>
+                <TouchableOpacity>
+                  <Text style={styles.seeAllText}>See All</Text>
+                </TouchableOpacity>
+              </View>
+              
+              <View style={styles.lyricPreview}>
+                <Text style={styles.lyricLine}>♪ First line of the song lyrics...</Text>
+                <Text style={styles.lyricLine}>♪ Second line with more lyrics...</Text>
+                <Text style={styles.lyricLine}>♪ Third line continues the story...</Text>
+              </View>
+            </View>
+            
+            {/* Up Next Section */}
+            <View style={styles.upNextSection}>
+              <View style={styles.upNextHeader}>
+                <Text style={styles.upNextTitle}>Up Next</Text>
+                <TouchableOpacity>
+                  <Text style={styles.seeAllText}>Queue</Text>
+                </TouchableOpacity>
+              </View>
+              
+              {playlist.slice(0, 3).map((track, index) => (
+                index !== currentTrackIndex && (
+                  <TouchableOpacity 
+                    key={track.id} 
+                    style={styles.upNextTrack}
+                    onPress={() => handleTrackSelection(index)}
+                  >
+                    <Image source={{ uri: track.image }} style={styles.upNextTrackImage} />
+                    <View style={styles.upNextTrackInfo}>
+                      <Text style={styles.upNextTrackTitle} numberOfLines={1}>{track.title}</Text>
+                      <Text style={styles.upNextTrackArtist} numberOfLines={1}>{track.artist}</Text>
+                    </View>
+                    <TouchableOpacity style={styles.upNextTrackAction}>
+                      <MaterialIcon name="more-vert" size={20} color={COLORS.textSecondary} />
+                    </TouchableOpacity>
+                  </TouchableOpacity>
+                )
+              ))}
+            </View>
+          </ScrollView>
+        </Animated.View>
+      </Animated.View>
+    </SafeAreaView>
+  );
+};
