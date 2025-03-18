@@ -230,3 +230,56 @@ const SpotifyClone = () => {
       setIsPlayerExpanded(!isPlayerExpanded);
     });
   };
+
+    // Playback Controls
+  const handlePlayPause = async () => {
+    try {
+      if (!soundRef.current) {
+        await loadAudio(currentTrackIndex);
+      }
+
+      if (isPlaying) {
+        await soundRef.current.pauseAsync();
+      } else {
+        await soundRef.current.playAsync();
+      }
+      setIsPlaying(!isPlaying);
+    } catch (error) {
+      console.error('Error toggling playback', error);
+    }
+  };
+
+  const handleNextTrack = () => {
+    const nextIndex = (currentTrackIndex + 1) % playlist.length;
+    setCurrentTrackIndex(nextIndex);
+    loadAudio(nextIndex);
+  };
+
+  const handlePrevTrack = () => {
+    const prevIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+    setCurrentTrackIndex(prevIndex);
+    loadAudio(prevIndex);
+  };
+
+  const handleTrackSelection = (index) => {
+    setCurrentTrackIndex(index);
+    setIsPlaying(true);
+    loadAudio(index);
+  };
+
+  const handleSliderChange = (value) => {
+    setSliderValue(value);
+  };
+
+  const handleSliderComplete = async (value) => {
+    if (soundRef.current && playbackDuration) {
+      const newPosition = value * playbackDuration;
+      await soundRef.current.setPositionAsync(newPosition);
+      setPlaybackPosition(newPosition);
+      setIsSeeking(false);
+    }
+  };
+
+  const handleSliderStart = () => {
+    setIsSeeking(true);
+  };
