@@ -336,3 +336,35 @@ const SpotifyClone = () => {
     extrapolate: 'clamp',
   });
 
+    return (
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor={COLORS.background} />
+      
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Discover</Text>
+        <View style={styles.headerRight}>
+          <TouchableOpacity style={styles.iconButton}>
+            <MaterialIcon name="notifications-none" size={24} color={COLORS.textPrimary} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.iconButton}>
+            <MaterialIcon name="search" size={24} color={COLORS.textPrimary} />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Image
+              source={{ uri: 'https://picsum.photos/202' }}
+              style={styles.profileImage}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Categories */}
+      <FlatList
+        horizontal
+        data={categories}
+        renderItem={renderCategory}
+        keyExtractor={(item) => item}
+        contentContainerStyle={styles.categoriesList}
+        showsHorizontalScrollIndicator={false}
+      />
