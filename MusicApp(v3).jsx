@@ -283,3 +283,56 @@ const SpotifyClone = () => {
   const handleSliderStart = () => {
     setIsSeeking(true);
   };
+
+      // Utility Functions
+  const formatTime = (millis) => {
+    if (!millis) return '0:00';
+    const minutes = Math.floor(millis / 60000);
+    const seconds = ((millis % 60000) / 1000).toFixed(0);
+    return `${minutes}:${seconds.padStart(2, '0')}`;
+  };
+
+  // UI Rendering
+  const renderCategory = ({ item }) => (
+    <TouchableOpacity style={styles.categoryButton}>
+      <Text style={styles.categoryText}>{item}</Text>
+    </TouchableOpacity>
+  );
+
+  const renderTrackItem = ({ item, index }) => (
+    <TouchableOpacity
+      style={styles.trackItem}
+      onPress={() => handleTrackSelection(index)}
+      activeOpacity={0.7}
+    >
+      <Image source={{ uri: item.image }} style={styles.trackImage} />
+      <Text style={styles.trackTitle} numberOfLines={1}>
+        {item.title}
+      </Text>
+      <Text style={styles.trackArtist} numberOfLines={1}>
+        {item.artist}
+      </Text>
+    </TouchableOpacity>
+  );
+
+  // Calculate player height based on animation value and current state
+  const playerHeight = playerAnimation.interpolate({
+    inputRange: isPlayerExpanded ? [0, FULL_PLAYER_HEIGHT - MINI_PLAYER_HEIGHT] : [-FULL_PLAYER_HEIGHT + MINI_PLAYER_HEIGHT, 0],
+    outputRange: isPlayerExpanded ? [FULL_PLAYER_HEIGHT, MINI_PLAYER_HEIGHT] : [MINI_PLAYER_HEIGHT, FULL_PLAYER_HEIGHT],
+    extrapolate: 'clamp',
+  });
+
+  // Calculate opacity for full player content
+  const fullPlayerOpacity = playerAnimation.interpolate({
+    inputRange: isPlayerExpanded ? [0, 100] : [-100, 0],
+    outputRange: isPlayerExpanded ? [1, 0] : [0, 1],
+    extrapolate: 'clamp',
+  });
+
+  // Calculate opacity for mini player content
+  const miniPlayerOpacity = playerAnimation.interpolate({
+    inputRange: isPlayerExpanded ? [0, 100] : [-100, 0],
+    outputRange: isPlayerExpanded ? [0, 1] : [1, 0],
+    extrapolate: 'clamp',
+  });
+
