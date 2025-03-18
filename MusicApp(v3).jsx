@@ -368,3 +368,67 @@ const SpotifyClone = () => {
         contentContainerStyle={styles.categoriesList}
         showsHorizontalScrollIndicator={false}
       />
+
+      
+      {/* Main Content */}
+      <FlatList
+        data={playlist}
+        renderItem={renderTrackItem}
+        keyExtractor={(item) => item.id}
+        numColumns={2}
+        contentContainerStyle={[
+          styles.trackListContainer,
+          { paddingBottom: isPlayerExpanded ? FULL_PLAYER_HEIGHT + 20 : MINI_PLAYER_HEIGHT + 20 }
+        ]}
+        columnWrapperStyle={styles.trackList}
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={
+          <Text style={styles.sectionTitle}>Recommended for you</Text>
+        }
+      />
+
+      {/* Now Playing Bar (Combined Mini and Full Player) */}
+      <Animated.View 
+        style={[
+          styles.playerContainer,
+          { height: playerHeight }
+        ]}
+      >
+        {/* Draggable Handle */}
+        <View style={styles.dragHandleContainer} {...panResponder.panHandlers}>
+          <View style={styles.dragHandle} />
+        </View>
+
+        {/* Mini Player */}
+        <Animated.View style={[styles.miniPlayer, { opacity: miniPlayerOpacity }]}>
+          <TouchableWithoutFeedback onPress={togglePlayerExpansion}>
+            <View style={styles.miniPlayerContent}>
+              <Image
+                source={{ uri: playlist[currentTrackIndex].image }}
+                style={styles.nowPlayingImageMini}
+              />
+              
+              <View style={styles.miniPlayerInfo}>
+                <Text style={styles.nowPlayingTitle} numberOfLines={1}>
+                  {playlist[currentTrackIndex].title}
+                </Text>
+                <Text style={styles.nowPlayingArtist} numberOfLines={1}>
+                  {playlist[currentTrackIndex].artist}
+                </Text>
+              </View>
+              
+              <View style={styles.miniPlayerControls}>
+                <TouchableOpacity onPress={handlePlayPause} style={styles.miniPlayButton}>
+                  <Icon
+                    name={isPlaying ? 'pause' : 'play'}
+                    size={18}
+                    color={COLORS.textPrimary}
+                  />
+                </TouchableOpacity>
+                
+                <TouchableOpacity onPress={handleNextTrack} style={styles.miniControlButton}>
+                  <Icon name="step-forward" size={18} color={COLORS.textPrimary} />
+                </TouchableOpacity>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
